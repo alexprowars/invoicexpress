@@ -9,6 +9,7 @@ use InvoiceXpress\Client\Client;
 use InvoiceXpress\Entities\DocumentsCollection;
 use InvoiceXpress\Entities\Email;
 use InvoiceXpress\Entities\Invoice as Entity;
+use InvoiceXpress\Entities\InvoicesCollection;
 use InvoiceXpress\Entities\Receipt;
 use InvoiceXpress\Exceptions\InvalidDocumentType;
 use InvoiceXpress\Exceptions\InvalidResponse;
@@ -183,10 +184,9 @@ class Invoice
     public static function list(Auth $auth, $filters)
     {
         $request = new Client($auth);
-        $response = $request->put(Receipt::ITEM_URL);
+        $response = $request->get(\InvoiceXpress\Entities\Invoice::ITEMS_URL, $filters);
         if ($response->isOk()) {
-            $data = $response->get(Receipt::CONTAINER);
-            return (new Receipt($data))->withAuth($auth);
+			return new InvoicesCollection($response->getBody());
         }
         throw new InvalidResponse($response, $request);
     }

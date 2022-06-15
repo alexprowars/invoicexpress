@@ -72,7 +72,7 @@ class Receipt extends AbstractEntity
         'payment_mechanism' => 'string',
         'note' => 'string',
         'serie' => 'string',
-        'amount' => 'integer',
+        'amount' => 'float',
         'payment_date' => 'to_date'
     ];
 

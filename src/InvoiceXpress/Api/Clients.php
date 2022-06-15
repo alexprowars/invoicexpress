@@ -9,6 +9,7 @@ use InvoiceXpress\Client\Client;
 use InvoiceXpress\Constants;
 use InvoiceXpress\Entities\Client as Entity;
 use InvoiceXpress\Entities\ClientsCollection as EntityCollection;
+use InvoiceXpress\Entities\InvoicesCollection;
 use InvoiceXpress\Exceptions\InvalidResponse;
 use InvoiceXpress\Exceptions\InvalidSearchType;
 use InvoiceXpress\Traits\ApiResource;
@@ -26,12 +27,17 @@ class Clients
      * @return EntityCollection
      * @throws InvalidResponse
      */
-    public static function list(Auth $auth, $page = 1, $per_page = 30)
+    public static function list(Auth $auth, $page = 1, $per_page = 30, $query = '')
     {
         $request = new Client($auth);
         # We can re-use this exact same code for creating for an existing account. Only the endpoint changes
         $request->addQuery('page', $page);
         $request->addQuery('per_page', $per_page);
+
+		if (!empty($query)) {
+        	$request->addQuery('query', $query);
+		}
+
         $response = $request->get(self::getEntity()::ITEMS_URL);
         if ($response->isOk()) {
             return new EntityCollection($response->getBody());
@@ -78,18 +84,27 @@ class Clients
      * @param int $page
      * @param int $per_page
      * @param array $filters
-     * @return EntityCollection
+     * @return InvoicesCollection
      * @throws InvalidResponse
      */
-    public static function invoices(Auth $auth, $page = 1, $per_page = 30, $filters = [])
+    public static function invoices(Auth $auth, Entity $client, $page = 1, $per_page = 30, $filters = [])
     {
         $request = new Client($auth);
         # We can re-use this exact same code for creating for an existing account. Only the endpoint changes
         $request->addQuery('page', $page);
         $request->addQuery('per_page', $per_page);
+		$request->addUrlVariable($client::ITEM_IDENTIFIER, $client->getId());
+
+		if (!empty($filters)) {
+			$request->withPost([
+				'filter' => $filters,
+			]);
+			$request->formParamsToJson();
+		}
+
         $response = $request->get(self::getEntity()::ITEM_INVOICES);
         if ($response->isOk()) {
-            return new EntityCollection($response->getBody());
+            return new InvoicesCollection($response->getBody());
         }
         throw new InvalidResponse($response, $request);
     }

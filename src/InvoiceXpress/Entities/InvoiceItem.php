@@ -14,6 +14,7 @@ namespace InvoiceXpress\Entities;
  * @property string name - Name of the item : Ex Coca-Cola 33CL
  * @property string description - Description of the item : Ex: Fresh coca-cola from heaven
  * @property integer|float unit_price - Price for this item
+ * @property-read  integer|float total - Total price for this item
  * @property integer quantity - Quantity Sold - TODO : Check here if we set 10x Times quantity, if the value is multiplied automaticly.
  * @property integer unit - Unite type @see Constants::UNIT_TYPES
  * @property integer|float discount - Discount to be applied if any, otherwise 0
