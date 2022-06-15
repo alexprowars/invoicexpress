@@ -156,7 +156,7 @@ class AbstractEntity
     public function fromArray($arr)
     {
         if (null !== self::CONTAINER) {
-            $arr = array_get($arr, self::CONTAINER);
+            $arr = Arr::get($arr, self::CONTAINER);
         }
 
         if (!empty($arr)) {

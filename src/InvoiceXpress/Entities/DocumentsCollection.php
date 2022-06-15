@@ -3,6 +3,8 @@
 
 namespace InvoiceXpress\Entities;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class DocumentsCollection
  *
@@ -26,7 +28,7 @@ class DocumentsCollection extends AbstractEntityCollection
             if (!is_array($item)) {
                 $loop[] = $item;
             } else {
-                $type = array_get($item, 'type');
+                $type = Arr::get($item, 'type');
                 if ($type !== null) {
                     switch ($type) {
                         case Invoice::DOCUMENT_TYPE_CAMEL_RECEIPT:

@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use Currency\CurrencyCode;
 use InvoiceXpress\Api\Clients;
 use InvoiceXpress\Constants;
 use InvoiceXpress\Entities\Invoice;
@@ -40,7 +39,7 @@ try {
         ->setRetention(10)
         ->setMbReferencesEnable()
         ->setMbReferencesDisable()
-        ->setCurrencyCode(CurrencyCode::EUR)
+        ->setCurrencyCode('EUR')
         ->addClient($client)
         ->addItem($item1)
         ->addItem($item2)

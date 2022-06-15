@@ -3,6 +3,7 @@
 namespace InvoiceXpress\Client;
 
 
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
 class Response
@@ -51,7 +52,7 @@ class Response
     public function has($key)
     {
         $body = $this->getBody();
-        return array_has($body, $key);
+        return Arr::has($body, $key);
     }
 
     /**
@@ -76,7 +77,7 @@ class Response
     public function get($key, $default = null)
     {
         $body = $this->getBody();
-        return array_get($body, $key, $default);
+        return Arr::get($body, $key, $default);
     }
 
     /**

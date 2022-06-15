@@ -5,6 +5,7 @@ namespace InvoiceXpress\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractClient
@@ -140,7 +141,7 @@ abstract class AbstractClient
             # clean approach, excluding the fact is DOES NOT work :(
             //$this->options['json'] = json_encode($this->options['form_params']);
             $this->options['body'] = json_encode($this->options['form_params']);
-            array_forget($this->options, ['form_params']);
+            Arr::forget($this->options, ['form_params']);
         }
     }
 
@@ -247,8 +248,8 @@ abstract class AbstractClient
      */
     public function withOptions($options = [])
     {
-        foreach (array_dot($options) as $k => $v) {
-            array_set($this->options, $k, $v);
+        foreach (Arr::dot($options) as $k => $v) {
+			Arr::set($this->options, $k, $v);
         }
         return $this;
     }
@@ -314,8 +315,8 @@ abstract class AbstractClient
      */
     public function withoutOptions($options = [])
     {
-        foreach (array_dot($options) as $k => $v) {
-            array_forget($this->options, $k);
+        foreach (Arr::dot($options) as $k => $v) {
+			Arr::forget($this->options, $k);
         }
         return $this;
     }

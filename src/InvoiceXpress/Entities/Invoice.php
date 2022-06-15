@@ -3,7 +3,7 @@
 
 namespace InvoiceXpress\Entities;
 
-use Currency\CurrencyCode;
+use Illuminate\Support\Arr;
 use InvoiceXpress\Auth;
 use InvoiceXpress\Entities\Client as ClientEntity;
 use InvoiceXpress\Exceptions\InvalidAuth;
@@ -494,7 +494,7 @@ class Invoice extends AbstractEntity
      * @param string $currency_code
      * @return Invoice
      */
-    public function setCurrencyCode($currency_code = CurrencyCode::EUR): Invoice
+    public function setCurrencyCode($currency_code = 'EUR'): Invoice
     {
         $this->currency_code = $currency_code;
         return $this;
@@ -795,7 +795,7 @@ class Invoice extends AbstractEntity
      */
     public static function typeFromPluralToSingular($singular)
     {
-        return array_get(self::DOCUMENT_TYPES_SINGULAR, $singular);
+        return Arr::get(self::DOCUMENT_TYPES_SINGULAR, $singular);
     }
 
     /**
